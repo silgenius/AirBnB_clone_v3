@@ -8,8 +8,8 @@
 
 from sqlalchemy import Column, String
 from models.base_model import BaseModel, Base
-from sqlalchemy.orm import relationship
-
+from sqlalchemy.orm import relationship, validates
+import hashlib
 
 class User(BaseModel, Base):
     """
@@ -30,6 +30,14 @@ class User(BaseModel, Base):
     password = Column(String(128), nullable=False)
     first_name = Column(String(128), nullable=True)
     last_name = Column(String(128), nullable=True)
+
+    @validates('password')
+    def hash_password(self, key, password):
+        """
+        Compute the MD5 hash of the password
+        """
+        md5_hash = hashlib.md5(password.encode('utf-8')).hexdigest()
+        return md5_hash
 
     places = relationship(
             "Place",

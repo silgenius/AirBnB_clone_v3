@@ -59,7 +59,7 @@ class FileStorage:
         sterilized_file = {}
         with open(type(self).__file_path, mode="w", encoding="utf-8") as f:
             for key, value in self.__objects.items():
-                sterilized_file[key] = value.to_dict()
+                sterilized_file[key] = value.to_dict(include_password=True)
             sterilized_file = json.dumps(sterilized_file)
             f.write(sterilized_file)
 
