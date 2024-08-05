@@ -107,12 +107,22 @@ class DBStorage:
         self.__session.close()
 
     def get(self, cls, id):
+        """
+        get obj using it ID
+        """
         objs = self.all(cls)
 
         for obj in objs.values():
             if obj.id == id:
-                return "[{}] ({}) {}".format(obj.__class__.__name__, obj.id, obj.__dict__)
+                return "[{}] ({}) {}".format(
+                        obj.__class__.__name__,
+                        obj.id,
+                        obj.__dict__
+                        )
         return None
 
     def count(self, cls=None):
+        """
+        count obj in storage
+        """
         return len(self.all(cls).keys())

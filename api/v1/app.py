@@ -16,6 +16,7 @@ app.register_blueprint(app_views)
 def storage_close(exception):
     storage.close()
 
+
 @app.errorhandler(404)
 def non_found(error):
     return make_response(jsonify({"error": "Not found"}), 404)
