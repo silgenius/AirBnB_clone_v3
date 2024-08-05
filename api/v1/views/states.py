@@ -6,7 +6,8 @@ managing states within a Flask application
 
 Routes:
     - GET /states/: Retrieve a list of all states.
-    - GET /states/<state_id>: Retrieve the details of a specific state by its ID.
+    - GET /states/<state_id>: Retrieve the details of a
+    specific state by its ID.
     - DELETE /states/<state_id>: Delete a specific state by its ID.
     - POST /states/: Create a new state.
     - PUT /states/<state_id>: Update the details of a specific state by its ID.
