@@ -51,7 +51,7 @@ def create_amenity():
 
     name = data.get("name")
     if not name:
-        return jsonify({"error": "Missing email"}), 400
+        return jsonify({"error": "Missing name"}), 400
 
     new_obj = Amenity()
     for key, value in data.items():
