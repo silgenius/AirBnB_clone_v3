@@ -75,3 +75,4 @@ def update_user(user_id):
                 else:
                     setattr(user, key, value)
             return jsonify(user.to_dict()), 200
+    abort(404)
