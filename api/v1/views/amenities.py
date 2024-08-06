@@ -15,50 +15,60 @@ from api.v1.views import app_views
 from models.amenity import Amenity
 from models import storage
 
-app = Flask(__name__) 
-@app_views.route("/amenities/<amenity_id>", methods=['GET', 'DELETE', 'PUT'])
-def amenities_with_id(amenity_id):
-    """RUD http requests on a amenity instance with id"""
-    amenity_inst = storage.all(Amenity)
-    amenity = amenity_inst.get(amenity_id)
 
-    if not amenity:
-        abort(404)
+@app_views("/amenities", methods=['GET'])
+def all_amenities():
+    amenities = storage.all(Amenity).values()
+    amenity_list = []
+    for amenity in amenities:
+        amenity_list.append(amenity.to_dict())
+    return jsonify(amenity_list)
 
-    """check for HTTP request method"""
-    if request.method == 'GET':
-        return jsonify(amenity.to_dict())
+@app_views("/amenities/<amenity_id>", methods=['GET'])
+def get_amenity(amenity_id):
+    amenities = storage.all(Amenity).values()
+    for amenity in amenities:
+        if amenity.id == amenity_id:
+            return jsonify(amenity.to_dict())
+    abort(404)
 
-    if request.method == 'DELETE':
-        amenity_inst.delete()
-        storage.save
-        return jsonify({}), 200
 
-    if request.method == 'PUT':
-        json_req = request.get_json()
-        if not json_req:
-            abort(400, 'Not a JSON')
-        for k, v in json_req.items():
-            if k not in ['id'. 'created_at', 'updated_at']
-                setattr(amenity, k, v)
-        storage.save()
-        return jsonify(amenity.to_dict()), 200
+@app_views("/amenities", methods=['POST'])
+def create_amenity:
+    try:
+        data = request.data_json()
+    except Exception:
+        return jsonify({"error": "Not a JSON"}), 400
 
-@app_views.route("/amenities/<amenity_id>", methods=['GET', 'POST'])
-def amenities_no_id(amenity_id):
-    """RU http request on a amenity instance with no id"""
+    name = data.get("name")
+    if not name:
+        return jsonify({"error": "Missing email"}), 400
 
-    """check for HTTP request method"""
-    if request.method == 'GET':
-        amenities_all = [inst.to_dict() for inst in storage.all(Amenity).values()]
-        return jsonify(amenities_all)
+    new_obj = Amenity()
+    for key, value in data.items():
+        if key == "id" or key == "updated_at" or key == "created_at":
+            pass
+        else:
+            setattr(new_obj, key, value)
+    storage.new(new_obj)
+    storage.save(new_obj)
 
-    if request.method == 'POST':
-        json_req = request.get_jason
-        if not json_req:
-            abort(404, 'Not a JSON')
-        if not json_req.get('name'):
-            abort(400, 'Missing name')
-        amenity_inst = Amenity(**json_req)
-        amenity_inst.save()
-        return jsonify(amenity_inst.to_dict()), 201
+     return jsonify(new_obj.to_dict()), 201
+
+
+@app_views("/amenities/<amenity_id>", methods=['GET'])
+def update_amenity(amenity_id):
+    amenities = storage.all(Amenity).values()
+    for amenity in amenities:
+        if amenity.id == amenity_id:
+            try:
+                data = request.get_json()
+            except Exception:
+                return jsonify({"error": "Not a JSON"}), 400
+            for key, value in data.items():
+                if key == "id" or key == "updated_at" or key == "created_at":
+                    pass
+                else:
+                    setattr(user, key, value)
+            return jsonify(user.to_dict()), 200
+    abort(404)
