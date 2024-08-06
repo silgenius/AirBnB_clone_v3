@@ -78,7 +78,7 @@ class BaseModel:
         storage.new(self)
         storage.save()
 
-    def to_dict(self):
+    def to_dict(self, include_password=False):
         """
         Returns a dictionary containing all keys/values of the instance.
         """
@@ -89,6 +89,9 @@ class BaseModel:
 
         if '_sa_instance_state' in new_dict.keys():
             new_dict.pop('_sa_instance_state')
+
+        if 'password' in new_dict.keys() and include_password == False:
+            new_dict.pop('password')
 
         return new_dict
 

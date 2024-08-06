@@ -23,6 +23,7 @@ app = Flask(__name__)
 
 
 @app_views.route("/states/", methods=['GET'])
+@app_views.route("/states", methods=['GET'])
 def get_state():
     """
         Retrieves a list of all states.
