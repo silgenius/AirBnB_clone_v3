@@ -74,5 +74,6 @@ def update_user(user_id):
                     pass
                 else:
                     setattr(user, key, value)
+            storage.save()
             return jsonify(user.to_dict()), 200
     abort(404)
