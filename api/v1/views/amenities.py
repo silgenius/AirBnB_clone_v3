@@ -43,7 +43,7 @@ def delete_amenity(amenity_id):
 
 
 @app_views.route("/amenities", methods=['POST'])
-def create_amenity:
+def create_amenity():
     try:
         data = request.data_json()
     except Exception:
@@ -62,7 +62,7 @@ def create_amenity:
     storage.new(new_obj)
     storage.save()
 
-     return jsonify(new_obj.to_dict()), 201
+    return jsonify(new_obj.to_dict()), 201
 
 
 @app_views.route("/amenities/<string:amenity_id>", methods=['GET'])

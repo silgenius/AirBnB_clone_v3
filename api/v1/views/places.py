@@ -41,7 +41,7 @@ def get_place_with_id(place_id):
     abort(404)
 
 
-@app_views("/places/<place_id>", methods=['DELETE'])
+@app_views.route("/places/<string:place_id>", methods=['DELETE'])
 def delete_place(place_id):
     places = storage.all(Place).values()
     for place in places:
@@ -52,39 +52,42 @@ def delete_place(place_id):
     abort(404)
 
 
-@app_views("/cities/<city_id>/places", methods=['POST'])
+@app_views.route("/cities/<city_id>/places", methods=['POST'])
 def create_place(city_id):
     cities = storage.all(City).values()
     for city in cities:
         if city.id == city_id:
-           try:
-               data = request.get_json()
-           except Exception:
-               return jsonify({"error": "Not a JSON"}), 400
-           user_id = data.get("user_id")
-           if not user_id:
-               return jsonify({"error": "Missing user_id"}), 400
-           users = storage.all(User).values()
-           for user in users:
-               if user.id == user_id:
-                   name = data.get("name")
-                   if not name:
-                       return  jsonify({"error": "Missing name"})
-                   new_obj = Place()
-                   setattr(new_obj, "city_id", city_id)
-                   for key, value in data.items():
-                       if key == "id" or key == "updated_at" or key == "created_at":
-                           pass
-                       else:
-                           setattr(new_obj, key, value)
-                    storage.new(new_obj)
-                    storage.save()
-                    return jsonify(new_obj.to_dict()), 201
+            try:
+                data = request.get_json()
+            except Exception:
+                return jsonify({"error": "Not a JSON"}), 400
+
+            user_id = data.get("user_id")
+            if not user_id:
+                return jsonify({"error": "Missing user_id"}), 400
+
+            users = storage.all(User).values()
+            for user in users:
+                if user.id == user_id:
+                    name = data.get("name")
+                    if not name:
+                        return  jsonify({"error": "Missing name"})
+                   
+                new_obj = Place()
+                setattr(new_obj, "city_id", city_id)
+                for key, value in data.items():
+                    if key == "id" or key == "updated_at" or key == "created_at":
+                        pass
+                    else:
+                        setattr(new_obj, key, value)
+                storage.new(new_obj)
+                storage.save()
+                return jsonify(new_obj.to_dict()), 201
             abort(404)
     abort(404)
 
 
-@app_views("/places/<place_id>", methods=['PUT'])
+@app_views.route("/places/<place_id>", methods=['PUT'])
 def update_place(place_id):
     places = storage.all(Place).values()
     for place in places:
@@ -94,10 +97,10 @@ def update_place(place_id):
             except Exception:
                 return jsonify({"error": "Not a JSON"}), 400
             for key, value in data.items():
-                if key == "id" or key == "updated_at" or key == "created_at" key == " city_id" or key == "user_id":
+                if key == "id" or key == "updated_at" or key == "created_at" or key == " city_id" or key == "user_id":
                     pass
                 else:
                     setattr(city, key, value)
             storage.save()
-            return.jsonify(place.to_dict()), 200
+            return jsonify(place.to_dict()), 200
     abort(404)

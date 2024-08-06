@@ -24,7 +24,7 @@ def get_user(user_id):
     abort(404)
 
 
-@app_views.route("/users/<string:user_id>" methods=['DELETTE'])
+@app_views.route("/users/<string:user_id>", methods=['DELETE'])
 def delete_user(user_id):
     users = storage.all(User).values()
     for user in users:
