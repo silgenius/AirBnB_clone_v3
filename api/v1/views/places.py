@@ -98,6 +98,6 @@ def update_place(place_id):
                     pass
                 else:
                     setattr(city, key, value)
-                storage.save()
+            storage.save()
             return.jsonify(place.to_dict()), 200
     abort(404)
