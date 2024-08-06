@@ -51,7 +51,7 @@ def create_amenity:
         else:
             setattr(new_obj, key, value)
     storage.new(new_obj)
-    storage.save(new_obj)
+    storage.save()
 
      return jsonify(new_obj.to_dict()), 201
 
