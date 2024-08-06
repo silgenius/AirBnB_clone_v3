@@ -16,7 +16,7 @@ from models.amenity import Amenity
 from models import storage
 
 
-@app_views("/amenities", methods=['GET'])
+@app_views.route("/amenities", methods=['GET'])
 def all_amenities():
     amenities = storage.all(Amenity).values()
     amenity_list = []
@@ -24,7 +24,7 @@ def all_amenities():
         amenity_list.append(amenity.to_dict())
     return jsonify(amenity_list)
 
-@app_views("/amenities/<amenity_id>", methods=['GET'])
+@app_views.route("/amenities/<string:amenity_id>", methods=['GET'])
 def get_amenity(amenity_id):
     amenities = storage.all(Amenity).values()
     for amenity in amenities:
@@ -33,7 +33,7 @@ def get_amenity(amenity_id):
     abort(404)
 
 
-@app_views("/amenities", methods=['POST'])
+@app_views.route("/amenities", methods=['POST'])
 def create_amenity:
     try:
         data = request.data_json()
@@ -56,7 +56,7 @@ def create_amenity:
      return jsonify(new_obj.to_dict()), 201
 
 
-@app_views("/amenities/<amenity_id>", methods=['GET'])
+@app_views.route("/amenities/<string:amenity_id>", methods=['GET'])
 def update_amenity(amenity_id):
     amenities = storage.all(Amenity).values()
     for amenity in amenities:

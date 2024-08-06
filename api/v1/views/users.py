@@ -6,7 +6,7 @@ from models.user import User
 from models import storage
 
 
-@app_views("/users", methods=['GET'])
+@app_views.route("/users", methods=['GET'])
 def all_users():
     users = storage.all(User).values()
     user_list = []
@@ -15,7 +15,7 @@ def all_users():
     return jsonify(user_list)
 
 
-@app_views("/users/<user_id>", methods=['GET'])
+@app_views.route("/users/<string:user_id>", methods=['GET'])
 def get_user(user_id):
     users = storage.all(User).values()
     for user in users:
@@ -24,7 +24,7 @@ def get_user(user_id):
     abort(404)
 
 
-@app_views("/users/<user_id>" methods=['DELETTE'])
+@app_views.route("/users/<string:user_id>" methods=['DELETTE'])
 def delete_user(user_id):
     users = storage.all(User).values()
     for user in users:
@@ -34,7 +34,7 @@ def delete_user(user_id):
     abort(404)
 
 
-@app_views("/users", methods=['POST'])
+@app_views.route("/users", methods=['POST'])
 def create_user():
     try:
         data = request.data_json()
@@ -60,7 +60,7 @@ def create_user():
     return jsonify(new_obj.to_dict()), 201
 
 
-@app_views("/users/<user_id>", methods=['PUT'])
+@app_views.route("/users/<string:user_id>", methods=['PUT'])
 def update_user(user_id):
     users = storage.all(User).values()
     for user in users:
