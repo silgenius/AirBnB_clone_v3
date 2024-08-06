@@ -83,6 +83,7 @@ class Place(BaseModel, Base):
             of Review instances with place_id equals to the current Place.id"""
 
             from models import storage
+            from models.review import Review
 
             result = []
             review_insts = storage.all(Review)
@@ -105,11 +106,13 @@ class Place(BaseModel, Base):
             """Getter attribute amenities that returns the list of Amenity
             instances"""
             from models import storage
+            from models.amenity import Amenity
 
-            return [
-                    storage.get('Amenity', amenity_id)
-                    for amenity_id in self.amenity_ids
-                    ]
+            result = []
+            amenity_insts = storage.all(Amenity)
+            for amenity in amenity_insts.values():
+                result.append(amenity)
+            return result
 
         @amenities.setter
         def amenities(self, obj):

@@ -11,6 +11,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship, validates
 import hashlib
 
+
 class User(BaseModel, Base):
     """
     This class represents a user with email, password, first name,
