@@ -68,7 +68,7 @@ def update_user(user_id):
             try:
                 data = request.get_json()
             except Exception:
-                return jsonify({"error": "Not a JSON"})
+                return jsonify({"error": "Not a JSON"}), 404
             for key, value in data.items():
                 if key == "id" or key == "updated_at" or key == "created_at" or key =="email":
                     pass
