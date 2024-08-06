@@ -6,11 +6,10 @@ from models.user import User
 from models import storage
 
 app = Flask(__name__)
-user_inst = storage.get(User, user_id)
-
 @app_views.route("/users/<user_id>", methods=['GET', 'DELETE', 'PUT'])
 def users_with_id(user_id):
     """A route handles RUD http requests on a user instance with id"""
+    user_inst = storage.get(User, user_id)
     if not user_inst:
         abort(404, 'Not found')
 
@@ -27,7 +26,8 @@ def users_with_id(user_id):
         json_req = request.get_json()
         if not json_req:
             abort(400, 'Not a JSON')
-        user_inst.update(json_req)
+        json.pop("email", None)
+        user_inst.update(**json_req)
         return jsonify(user_inst.to_dict()), 200
 
 @app_views.route("/users/<user_id>", methods=['GET','POST'])

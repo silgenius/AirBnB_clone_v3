@@ -39,7 +39,7 @@ def amenities_with_id(amenity_id):
         if not json_req:
             abort(400, 'Not a JSON')
         for k, v in json_req.items():
-            if k not in ['id'. 'created_at', 'updated_at']
+            if k not in ['id', 'created_at', 'updated_at']:
                 setattr(amenity, k, v)
         storage.save()
         return jsonify(amenity.to_dict()), 200
