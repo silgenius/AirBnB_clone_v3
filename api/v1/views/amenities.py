@@ -45,7 +45,7 @@ def delete_amenity(amenity_id):
 @app_views.route("/amenities", methods=['POST'])
 def create_amenity():
     try:
-        data = request.data_json()
+        data = request.get_json()
     except Exception:
         return jsonify({"error": "Not a JSON"}), 400
 
