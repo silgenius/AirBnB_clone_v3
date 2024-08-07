@@ -42,5 +42,5 @@ if __name__ == "__main__":
 
     if not api_port:
         api_port = 5000
-    
+
     app.run(host=api_host, port=api_port)

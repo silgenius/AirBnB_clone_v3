@@ -28,8 +28,7 @@ def get_place_review(place_id):
                 if review.place_id = place_id:
                     review_list.append(review.to_dict())
             return jsonify(review_list)
-
-    abort (404)
+    abort(404)
 
 
 @app_views.route("/reviews/<string:review_id>", methods=['GET'])
@@ -77,13 +76,11 @@ def create_review(place_id):
                 if user.id == user_id:
                     text = data.get("text")
                     if not text:
-                        return  jsonify({"error": "Missing text"}), 400
+                        return jsonify({"error": "Missing text"}), 400
                     new_obj = Review()
                     setattr(new_obj, "place_id", place_id)
                     for key, value in data.items():
-                        if key == "id" or key == "updated_at" or key == "created_at":
-                            pass
-                        else:
+                        if key not in ["id", "updated_at", "created_at"]:
                             setattr(new_obj, key, value)
                     storage.new(new_obj)
                     storage.save()
@@ -105,9 +102,13 @@ def update_review(review_id):
             except Exception:
                 return jsonify({"error": "Not a JSON"}), 400
             for key, value in data.items():
-                if key == "id" or key == "updated_at" or key == "created_at" key == " place_id" or key == "user_id":
-                    pass
-                else:
+                if key not in [
+                        "id",
+                        "updated_at",
+                        "created_at",
+                        "place_id",
+                        "user_id"
+                        ]:
                     setattr(city, key, value)
             storage.save()
             return.jsonify(review.to_dict()), 200

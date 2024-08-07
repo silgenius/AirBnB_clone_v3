@@ -83,12 +83,18 @@ def create_place(city_id):
                 if user.id == user_id:
                     name = data.get("name")
                     if not name:
-                        return  jsonify({"error": "Missing name"})
-                   
+                        return jsonify({"error": "Missing name"})
+
                     new_obj = Place()
                     setattr(new_obj, "city_id", city_id)
                     for key, value in data.items():
-                        if key not in ["id", "updated_at", "created_at", "city_id", "user_id"]:
+                        if key not in [
+                                "id",
+                                "updated_at",
+                                "created_at",
+                                "city_id",
+                                "user_id"
+                                ]:
                             setattr(new_obj, key, value)
                     storage.new(new_obj)
                     storage.save()
@@ -110,7 +116,13 @@ def update_place(place_id):
             except Exception:
                 return jsonify({"error": "Not a JSON"}), 400
             for key, value in data.items():
-                if key not in ["id", "updated_at", "created_at", "city_id", "user_id"]:
+                if key not in [
+                        "id",
+                        "updated_at",
+                        "created_at",
+                        "city_id",
+                        "user_id"
+                        ]:
                     setattr(city, key, value)
             storage.save()
             return jsonify(place.to_dict()), 200

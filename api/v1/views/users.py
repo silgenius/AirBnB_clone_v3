@@ -52,7 +52,7 @@ def create_user():
         data = request.get_json()
     except Exception:
         return jsonify({"error": "Not a JSON"}), 400
-    
+
     email = data.get("email")
     if not email:
         return jsonify({"error": "Missing email"}), 400
