@@ -24,6 +24,7 @@ def all_amenities():
         amenity_list.append(amenity.to_dict())
     return jsonify(amenity_list)
 
+
 @app_views.route("/amenities/<string:amenity_id>", methods=['GET'])
 def get_amenity(amenity_id):
     amenities = storage.all(Amenity).values()
@@ -41,18 +42,6 @@ def delete_amenity(amenity_id):
             storage.save()
     abort(404)
 
-<<<<<<< HEAD
-    if request.method == 'PUT':
-        json_req = request.get_json()
-        if not json_req:
-            abort(400, 'Not a JSON')
-        for k, v in json_req.items():
-            if k not in ['id', 'created_at', 'updated_at']:
-                setattr(amenity, k, v)
-        storage.save()
-        return jsonify(amenity.to_dict()), 200
-=======
->>>>>>> b95f632d1d88a0bbee6ba3f4c9e71faad45eac99
 
 @app_views.route("/amenities", methods=['POST'])
 def create_amenity():
@@ -67,9 +56,7 @@ def create_amenity():
 
     new_obj = Amenity()
     for key, value in data.items():
-        if key == "id" or key == "updated_at" or key == "created_at":
-            pass
-        else:
+        if key not in ["id", "updated_at", "created_at"]:
             setattr(new_obj, key, value)
     storage.new(new_obj)
     storage.save()
@@ -87,9 +74,7 @@ def update_amenity(amenity_id):
             except Exception:
                 return jsonify({"error": "Not a JSON"}), 400
             for key, value in data.items():
-                if key == "id" or key == "updated_at" or key == "created_at":
-                    pass
-                else:
+                if key not in ["id", "updated_at", "created_at"]:
                     setattr(user, key, value)
             storage.save()
             return jsonify(user.to_dict()), 200
