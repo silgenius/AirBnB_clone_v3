@@ -20,6 +20,9 @@ from models import storage
 
 @app_views.route("/cities/<string:city_id>/places", methods=['GET'])
 def get_places_with_city(city_id):
+    """
+    Retrieve a list of all places in a specific city by city_id.
+    """
     cities = storage.all(City).values()
     for city in cities:
         if city.id == city_id:
@@ -34,6 +37,9 @@ def get_places_with_city(city_id):
 
 @app_views.route("/places/<place_id>", methods=['GET'])
 def get_place_with_id(place_id):
+    """
+    Retrieve a specific place by place_id.
+    """
     places = storage.all(Place).values()
     for place in places:
         if place.id == place_id:
@@ -43,6 +49,9 @@ def get_place_with_id(place_id):
 
 @app_views.route("/places/<string:place_id>", methods=['DELETE'])
 def delete_place(place_id):
+    """
+    Delete a specific place by place_id.
+    """
     places = storage.all(Place).values()
     for place in places:
         if place.id in place_id:
@@ -54,6 +63,9 @@ def delete_place(place_id):
 
 @app_views.route("/cities/<city_id>/places", methods=['POST'])
 def create_place(city_id):
+    """
+    Create a new place in a specific city by city_id.
+    """
     cities = storage.all(City).values()
     for city in cities:
         if city.id == city_id:
@@ -89,6 +101,9 @@ def create_place(city_id):
 
 @app_views.route("/places/<place_id>", methods=['PUT'])
 def update_place(place_id):
+    """
+    Update details of a specific place by place_id.
+    """
     places = storage.all(Place).values()
     for place in places:
         if place.id == place_id:

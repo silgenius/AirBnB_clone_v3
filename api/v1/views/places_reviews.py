@@ -16,6 +16,9 @@ from models import storage
 
 @app_views.route("/places/<string:place_id>/reviews", methods=['GET'])
 def get_place_review(place_id):
+    """
+    Retrieve a list of all reviews for a specific place by place_id.
+    """
     places = storage.all(Place).values()
     for place in places:
         if place.id == place_id:
@@ -31,6 +34,9 @@ def get_place_review(place_id):
 
 @app_views.route("/reviews/<string:review_id>", methods=['GET'])
 def get_review(review_id):
+    """
+    Retrieve a specific review by review_id.
+    """
     reviews = storage.all(Review).values()
     for review in reviews:
         if review.id == review_id:
@@ -40,6 +46,9 @@ def get_review(review_id):
 
 @app_views.route("/reviews/<string:review_id>", methods=['DELETE'])
 def delete_review(review_id):
+    """
+    Delete a specific review by review_id.
+    """
     reviews = storage.all(Review).values()
     for review in reviews:
         if review.id == review_id:
@@ -50,6 +59,9 @@ def delete_review(review_id):
 
 @app_views.route("/places/<string:place_id>/reviews", methods=['POST'])
 def create_review(place_id):
+    """
+    Create a new review for a specific place by place_id.
+    """
     places = storage.all(Place).values()
     for place in places:
         if place.id == place_id:
@@ -82,6 +94,9 @@ def create_review(place_id):
 
 @app_views.route("/reviews/<string:review_id>", methods=['PUT'])
 def update_review(review_id):
+    """
+    Update details of a specific review by review_id.
+    """
     reviews = storage.all(Review).values()
     for review in reviews:
         if review.id == review_id:
