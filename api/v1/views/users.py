@@ -49,7 +49,7 @@ def create_user():
     Create a new user.
     """
     try:
-        data = request.data_json()
+        data = request.get_json()
     except Exception:
         return jsonify({"error": "Not a JSON"}), 400
     
@@ -80,7 +80,7 @@ def update_user(user_id):
             except Exception:
                 return jsonify({"error": "Not a JSON"}), 404
             for key, value in data.items():
-                if key not in ["id", "updated_at", "created_at"]:
+                if key not in ["id", "updated_at", "created_at", "email"]:
                     setattr(user, key, value)
             storage.save()
             return jsonify(user.to_dict()), 200

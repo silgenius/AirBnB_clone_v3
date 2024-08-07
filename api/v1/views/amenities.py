@@ -38,8 +38,8 @@ def delete_amenity(amenity_id):
     amenities = storage.all(Amenity).values()
     for amenity in amenities:
         if amenity.id == amenity_id:
-            storage.delete(amenity_id)
-            storage.save()
+            storage.delete(amenity)
+            return {}, 200
     abort(404)
 
 
@@ -64,7 +64,7 @@ def create_amenity():
     return jsonify(new_obj.to_dict()), 201
 
 
-@app_views.route("/amenities/<string:amenity_id>", methods=['GET'])
+@app_views.route("/amenities/<string:amenity_id>", methods=['PUT'])
 def update_amenity(amenity_id):
     amenities = storage.all(Amenity).values()
     for amenity in amenities:
@@ -75,7 +75,7 @@ def update_amenity(amenity_id):
                 return jsonify({"error": "Not a JSON"}), 400
             for key, value in data.items():
                 if key not in ["id", "updated_at", "created_at"]:
-                    setattr(user, key, value)
+                    setattr(amenity, key, value)
             storage.save()
-            return jsonify(user.to_dict()), 200
+            return jsonify(amenity.to_dict()), 200
     abort(404)
