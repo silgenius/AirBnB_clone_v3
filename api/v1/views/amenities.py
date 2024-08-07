@@ -44,7 +44,7 @@ def delete_amenity(amenity_id):
     abort(404)
 
 
-@app_views.route("/amenities", methods=['POST'])
+@app_views.route("/amenities/", methods=['POST'])
 def create_amenity():
     try:
         data = request.get_json()
