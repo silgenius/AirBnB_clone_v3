@@ -19,11 +19,17 @@ CORS(app, resources={r"/*": {
 
 @app.teardown_appcontext
 def storage_close(exception):
+    """
+    Closes the storage connection at the end of the application context.
+    """
     storage.close()
 
 
 @app.errorhandler(404)
 def non_found(error):
+    """
+    Handles 404 Not Found errors.
+    """
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
