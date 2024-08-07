@@ -39,7 +39,12 @@ class DBStorage:
         host = getenv('HBNB_MYSQL_HOST')
         env = getenv('HBNB_ENV')
 
-        Db_url = f'mysql+mysqldb://{username}:{password}@{host}/{database}'
+        Db_url = 'mysql+mysqldb://{}:{}@{}/{}'.format(
+                username,
+                password,
+                host,
+                database
+                )
         self.__engine = create_engine(Db_url, pool_pre_ping=True)
 
         if env == "test":
@@ -61,7 +66,7 @@ class DBStorage:
             objects = self.__session.query(cls).all()
             if objects:
                 for obj in objects:
-                    key = f'{obj.__class__.__name__}.{obj.id}'
+                    key = '{}.{}'.format(obj.__class__.__name__, obj.id)
                     new_obj[key] = obj
         return new_obj
 
